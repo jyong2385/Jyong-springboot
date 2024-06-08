@@ -6,7 +6,6 @@ import com.jyong.springboot.config.CommonNacosConfig;
 import com.jyong.springboot.entity.StudentModel;
 import com.jyong.springboot.service.designpattern.factory.ExecuteProcess;
 import com.jyong.springboot.service.designpattern.strategy.ProcessMain;
-import com.jyong.springboot.web.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -104,7 +103,7 @@ public class LauncherController {
             }
         }
 
-        return ResponseEntity.ok(ResultUtils.ok("文件上传成功, 文件名：" + newFileName));
+        return ResponseEntity.ok("文件上传成功, 文件名：" + newFileName);
     }
 
     @GetMapping("/nacos")

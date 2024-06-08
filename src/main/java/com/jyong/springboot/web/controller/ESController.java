@@ -1,12 +1,11 @@
 package com.jyong.springboot.web.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.jyong.springboot.service.elasticsearch.ESearchService;
-import com.jyong.springboot.web.vo.IndexTemplateRequest;
 import com.jyong.springboot.entity.Person;
-import com.jyong.springboot.web.Result;
-import com.jyong.springboot.web.ResultUtils;
 import com.jyong.springboot.enums.PersonIndexTemplateEnum;
+import com.jyong.springboot.service.elasticsearch.ESearchService;
+import com.jyong.springboot.web.Result;
+import com.jyong.springboot.web.vo.IndexTemplateRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.core.CountRequest;
@@ -17,7 +16,10 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jyong
@@ -76,9 +78,10 @@ public class ESController {
     @PostMapping("/createTemplate.json")
     @ResponseBody
     public Result<Object> createTemplate(@RequestBody IndexTemplateRequest indexTemplateRequest) {
-
+        Result<Object> result = new Result<>();
         Boolean success = eSearchService.createTemplate(indexTemplateRequest.getName(), indexTemplateRequest.getMapping());
-        return ResultUtils.ok(success);
+        result.setData(success);
+        return result;
     }
 
 
@@ -89,7 +92,10 @@ public class ESController {
         for (Map<String, Object> datum : data) {
             eSearchService.save(index, datum);
         }
-        return ResultUtils.ok(true);
+        Result<Object> objectResult = new Result<>();
+        objectResult.setSuccess(true);
+        objectResult.setData(data);
+        return objectResult;
     }
 
 
