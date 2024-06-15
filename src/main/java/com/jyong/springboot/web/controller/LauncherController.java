@@ -2,7 +2,7 @@ package com.jyong.springboot.web.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.jyong.springboot.Util.LogUtil;
-import com.jyong.springboot.config.CommonNacosConfig;
+import com.jyong.springboot.config.CommonPropertiesConfig;
 import com.jyong.springboot.entity.StudentModel;
 import com.jyong.springboot.service.designpattern.factory.ExecuteProcess;
 import com.jyong.springboot.service.designpattern.strategy.ProcessMain;
@@ -29,7 +29,7 @@ public class LauncherController {
     private ExecuteProcess executeProcess;
 
     @Autowired
-    private CommonNacosConfig commonNacosConfig;
+    private CommonPropertiesConfig commonNacosConfig;
 
 
 
@@ -108,7 +108,7 @@ public class LauncherController {
 
     @GetMapping("/nacos")
     public ResponseEntity<String> nacos() {
-        return ResponseEntity.ok(commonNacosConfig.getCommon());
+        return ResponseEntity.ok("");
     }
 
 

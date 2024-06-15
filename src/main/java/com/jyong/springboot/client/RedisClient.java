@@ -1,7 +1,8 @@
 package com.jyong.springboot.client;
 
 import com.jyong.springboot.client.pool.RedisClientPool;
-import com.jyong.springboot.config.CommonNacosConfig;
+import com.jyong.springboot.config.ApplicationPropertiesConfig;
+import com.jyong.springboot.config.CommonPropertiesConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +29,12 @@ public class RedisClient {
     private RedisClientPool redisClientPool;
 
     @Autowired
-    private CommonNacosConfig commonNacosConfig;
+    private ApplicationPropertiesConfig applicationPropertiesConfig;
 
     @PostConstruct
     public void init(){
-        String redisIp = commonNacosConfig.getRedisIp();
-        String redisPort = commonNacosConfig.getRedisPort();
+        String redisIp = applicationPropertiesConfig.getRedisIp();
+        String redisPort = applicationPropertiesConfig.getRedisPort();
         LOGGER.info("start init redis client !!! ,redisIp="+redisIp+" ,redisPort="+redisPort);
         redisClientPool.init(redisIp, Integer.parseInt(redisPort));
     }

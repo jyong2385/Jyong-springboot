@@ -2,6 +2,7 @@ package com.jyong.springboot.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
@@ -13,17 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RefreshScope
 @Data
-public class CommonNacosConfig {
-
-
-    @Value("${redis.ip}")
-    private String redisIp;
-
-
-    @Value("${redis.port}")
-    private String redisPort;
-
-    @Value("${common.value}")
-    private String common;
+@ConfigurationProperties(value = "common.properties")
+public class CommonPropertiesConfig {
 
 }
