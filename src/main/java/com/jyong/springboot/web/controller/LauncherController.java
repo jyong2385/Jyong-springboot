@@ -71,7 +71,8 @@ public class LauncherController {
         InputStream inputStream = null;
         FileOutputStream fileOutputStream = null;
         String name = file.getOriginalFilename();
-        LogUtil.info(this.getClass(), "开始上传文件！ 文件名：" + name);
+        long size = file.getSize();
+        LogUtil.info(this.getClass(), "开始上传文件！ 文件名：" + name+" ,size="+size);
         String newFileName = System.currentTimeMillis() + "-" + name;
         String type = name.split("\\.")[1];
         try {
