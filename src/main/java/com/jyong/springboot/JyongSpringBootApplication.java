@@ -14,6 +14,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @MapperScan("com.jyong.springboot.dao.mapper")
 public class JyongSpringBootApplication {
     public static void main(String[] args) {
-        SpringApplication.run(JyongSpringBootApplication.class,args);
+        SpringApplication.run(JyongSpringBootApplication.class, args);
     }
 }

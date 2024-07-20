@@ -46,5 +46,30 @@ public class RetryUtil {
         return null;
     }
 
+    public static void execute(final Runnable callable,
+                                final int retryTimes,
+                                final long waitTimeInMilliSecond,
+                                final double multiple , boolean throwException) {
 
+        long waitTime = waitTimeInMilliSecond;
+        Throwable cause = null;
+        for (int i = 0; i <= retryTimes; i++) {
+            try {
+                 callable.run();
+            } catch (Throwable e) {
+                LOGGER.warn("execute run error ,", e.getCause());
+                cause = e;
+                try {
+                    Thread.sleep(waitTime);
+                } catch (Exception ex) {
+                    LOGGER.warn("retry sleep error ,", e.getCause());
+                }
+                waitTime = (long) Math.ceil(waitTime * multiple);
+            }
+
+        }
+        if(throwException){
+            throw new RuntimeException(cause);
+        }
+    }
 }
