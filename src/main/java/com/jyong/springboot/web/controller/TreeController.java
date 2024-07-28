@@ -1,7 +1,7 @@
 package com.jyong.springboot.web.controller;
 
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
 import com.jyong.springboot.enums.TreeTypeEnum;
 import com.jyong.springboot.model.Tree;
 import com.jyong.springboot.model.TreeModel;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,13 +55,30 @@ public class TreeController {
     }
     @RequestMapping(value = "/getTreeModel.json", method = RequestMethod.GET)
     @ResponseBody
-    public Result<List<com.jyong.springboot.Util.tree.Tree<Long>>> getTreeModel() {
-        Result<List<com.jyong.springboot.Util.tree.Tree<Long>>> result = new Result<>();
+    public Result<List<TreeModel>> getTreeModel() {
+        Result<List<TreeModel>> result = new Result<>();
         result.setSuccess(true);
         List<com.jyong.springboot.Util.tree.Tree<Long>> data = treeService.selectTreeModel();
-        LOGGER.info(JSONUtil.toJsonStr(data));
-        result.setData(data);
+//        LOGGER.info(JSONUtil.toJsonStr(data));
+
+        result.setData(copyTree(data));
         return result;
+    }
+
+    public List<TreeModel> copyTree(List<com.jyong.springboot.Util.tree.Tree<Long>> tree) {
+        List<TreeModel> copiedSubNode = new ArrayList<>();
+        if(tree == null || tree.isEmpty()){
+            return copiedSubNode;
+        }
+        for (com.jyong.springboot.Util.tree.Tree<Long> node : tree) {
+            TreeModel  target = JSON.parseObject(JSON.toJSONString(node), TreeModel.class);
+            // 递归复制每个子节点
+            List<TreeModel> children = copyTree(node.getChildren());
+            target.setSubNode(children); // 将子节点列表赋值给当前节点
+
+            copiedSubNode.add(target);
+        }
+        return copiedSubNode;
     }
 
 

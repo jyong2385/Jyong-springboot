@@ -23,4 +23,5 @@ public class TreeModel extends Tree{
     public void setSubNode(List<TreeModel> subNode) {
         this.subNode = subNode;
     }
+
 }
