@@ -55,7 +55,7 @@
         </javaModelGenerator>
 
         <!--生成mapper映射文件存放位置-->
-        <sqlMapGenerator targetProject="src/main/resources" targetPackage="mappers/auto">
+        <sqlMapGenerator targetProject="src/main/resources" targetPackage="mapper">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -73,7 +73,13 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="user" domainObjectName="User"
+<!--        <table tableName="user" domainObjectName="User"-->
+<!--               enableCountByExample="true"-->
+<!--               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--        </table>-->
+
+        <table tableName="tree" domainObjectName="Tree"
                enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
