@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author jyong
@@ -19,8 +20,9 @@ import java.util.Date;
 public class Person implements Serializable {
 
     private String name;
-    private int age;
+    private Integer age;
     private String address;
     private Date birthday;
+    private List<String> names;
 
 }

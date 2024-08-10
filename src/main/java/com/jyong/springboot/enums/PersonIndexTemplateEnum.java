@@ -9,19 +9,19 @@ package com.jyong.springboot.enums;
 public enum PersonIndexTemplateEnum {
 
 
-    NAME("name","名字"),
+    NAME("name", "名字"),
 
-    AGE("age","年龄"),
+    AGE("age", "年龄"),
 
-    ADDRESS("address","地址");
+    ADDRESS("address", "地址");
 
 
     private String esDataKey;
     private String desc;
 
-    PersonIndexTemplateEnum(String esDataKey,String desc){
-        this.desc= desc;
-        this.esDataKey=esDataKey;
+    PersonIndexTemplateEnum(String esDataKey, String desc) {
+        this.desc = desc;
+        this.esDataKey = esDataKey;
     }
 
     public String getEsDataKey() {
@@ -38,5 +38,12 @@ public enum PersonIndexTemplateEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    /**
+     * keyword查询
+     */
+    public String getEsDataKey(boolean keyword) {
+        return keyword ? this.esDataKey + ".keyword" : this.esDataKey;
     }
 }
