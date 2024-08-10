@@ -28,7 +28,8 @@ public class TraceFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        MDC.put("traceId", UUID.randomUUID().toString().replace("-","")); // 生成或从请求头中提取traceId
+        String traceId = UUID.randomUUID().toString().replace("-", "");
+        MDC.put("traceId", traceId); // 生成或从请求头中提取traceId
         try {
             filterChain.doFilter(request, response);
         } finally {

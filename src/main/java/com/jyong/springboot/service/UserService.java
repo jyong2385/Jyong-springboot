@@ -16,4 +16,9 @@ public interface UserService {
 
     List<User> selectByName(String name);
 
+    /**
+     * 根据日期范围查询
+     */
+    List<User> selectByUpdateDate(String startDate, String endDate);
+
 }

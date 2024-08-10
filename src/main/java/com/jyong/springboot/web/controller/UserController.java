@@ -41,4 +41,12 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/selectByUpdateDate.json")
+    Result<List<User>> selectByUpdateDate(@RequestParam String startDate,@RequestParam String endDate) {
+        Result<List<User>> result = new Result<>();
+        result.setSuccess(true);
+        result.setData(userService.selectByUpdateDate(startDate,endDate));
+        return result;
+    }
+
 }

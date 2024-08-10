@@ -123,6 +123,7 @@ public class UserExample {
         if (oredCriteria.size() == 0) {
             oredCriteria.add(criteria);
         }
+
         return criteria;
     }
 
