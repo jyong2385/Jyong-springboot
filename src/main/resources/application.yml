@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       config:
-#        shared-configs: application.properties,common.properties
+        #        shared-configs: application.properties,common.properties
         refresh-enabled: true
         server-addr: 127.0.0.1
         file-extension: properties
@@ -11,3 +11,15 @@ spring:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+easyexcel:
+  #设置最大读取行数
+  max-read-rows: 10000
+  #大文件配置
+  large-file:
+    #默认开启大文件处理
+    enable: true
+    #内存缓冲区大小
+    buffer-size: 1024
+    #每次读取的行数
+    read-rows-per-time: 1000
