@@ -4,12 +4,8 @@ import com.jyong.springboot.Util.LogUtil;
 import com.jyong.springboot.Util.UserContextUtil;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -17,28 +13,30 @@ import java.util.UUID;
  * @Author jyong
  * @Date 2024/5/18 16:44
  * @desc
+ * 过滤器实现方式一：实现 javax.servlet。Filter
  */
 @Component
-public class TraceFilter extends OncePerRequestFilter {
+public class TraceFilter implements Filter {
 
-    /**
-     * @param request
-     * @param response
-     * @param filterChain
-     * @throws ServletException
-     * @throws IOException
-     */
+    private final String TRACE_ID = "traceId";
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         LogUtil.info(this.getClass(),"trace 链路追踪过滤器开始 ------");
         String traceId = UUID.randomUUID().toString().replace("-", "");
-        MDC.put("traceId", traceId); // 生成或从请求头中提取traceId
-        try {
-            UserContextUtil.setTraceId(traceId);
-            filterChain.doFilter(request, response);
-        } finally {
-            LogUtil.info(this.getClass(),"trace 链路追踪过滤器销毁 ------");
-            MDC.remove("traceId");
-        }
+        MDC.put(TRACE_ID, traceId);
+        UserContextUtil.setTraceId(traceId);
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        Filter.super.init(filterConfig);
+    }
+
+    @Override
+    public void destroy() {
+        MDC.remove(TRACE_ID);
+        LogUtil.info(this.getClass(),"trace 链路追踪过滤器销毁 ------");
     }
 }

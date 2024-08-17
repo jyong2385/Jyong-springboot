@@ -21,6 +21,8 @@ import java.io.IOException;
  * @author Jyong
  * @date 2024/8/17 10:23
  * @description
+ *
+ * 过滤器实现方式二：继承：org.springframework.web.filter.OncePerRequestFilter
  */
 @Component
 public class UserContextFilter extends OncePerRequestFilter {
