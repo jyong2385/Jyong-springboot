@@ -1,8 +1,11 @@
 package com.jyong.springboot.web.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
 import com.jyong.springboot.Util.LogUtil;
 import com.jyong.springboot.config.CommonPropertiesConfig;
+import com.jyong.springboot.dao.model.User;
 import com.jyong.springboot.entity.StudentModel;
 import com.jyong.springboot.service.designpattern.factory.ExecuteProcess;
 import com.jyong.springboot.service.designpattern.strategy.ProcessMain;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.List;
 
 @Controller
 @RequestMapping("/launcher")
@@ -34,6 +38,15 @@ public class LauncherController {
     @GetMapping("/app.run")
     public ResponseEntity<String> app() {
         return ResponseEntity.ok("<h1> app is running ...... </h1>");
+    }
+
+    @PostMapping("/test.json")
+    @ResponseBody
+    public ResponseEntity<String> test(@RequestBody List<User> users) {
+        for (User user : users) {
+            System.out.println(JSONUtil.toJsonStr(user));
+        }
+        return ResponseEntity.ok(JSON.toJSONString(users));
     }
 
     @GetMapping("/executeProcess.run")
