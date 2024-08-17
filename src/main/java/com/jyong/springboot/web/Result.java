@@ -1,5 +1,7 @@
 package com.jyong.springboot.web;
 
+import com.jyong.springboot.Util.UserContextUtil;
+import com.jyong.springboot.dao.model.User;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -31,21 +33,27 @@ public class Result<T> implements Serializable {
      */
     private T data;
 
+    private String traceId;
+
     public static Result<Object> successResult(Object data) {
         return new Result<>(data, true);
     }
 
     public Result() {
+        this.traceId = UserContextUtil.getTraceId();
     }
 
     public Result(boolean success, String message, T data) {
         this.success = success;
         this.message = message;
         this.data = data;
+        this.traceId = UserContextUtil.getTraceId();
     }
 
     public Result(T data, boolean success) {
         this.data = data;
         this.success = success;
+        this.traceId = UserContextUtil.getTraceId();
     }
+
 }

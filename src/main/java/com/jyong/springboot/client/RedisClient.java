@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.SetParams;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -54,13 +55,22 @@ public class RedisClient {
     }
 
 
-    public String putData(String key,String data) {
+    /**
+     *
+     * @param key
+     * @param data
+     * @param seconds 过期事件秒
+     * @return
+     */
+    public String putData(String key,String data,long seconds) {
         Assert.isTrue(StringUtils.isNotBlank(key),"key is null");
         Assert.isTrue(StringUtils.isNotBlank(data),"data is null");
         Jedis client = null;
         try {
+            SetParams setParams = new SetParams();
             client = redisClientPool.getClient();
-            return client.set(key,data);
+            setParams.ex(seconds);
+            return client.set(key,data,setParams);
         }catch (Exception e){
             LOGGER.error("put redis data error !!!",e);
         }finally {

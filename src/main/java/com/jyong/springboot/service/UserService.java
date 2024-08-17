@@ -21,4 +21,9 @@ public interface UserService {
      */
     List<User> selectByUpdateDate(String startDate, String endDate);
 
+    Long register(User user);
+
+    User selectById(Long id);
+
+    User selectByIdInCache(Long id);
 }

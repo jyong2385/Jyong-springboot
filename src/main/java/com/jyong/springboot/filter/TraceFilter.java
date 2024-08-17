@@ -1,5 +1,7 @@
 package com.jyong.springboot.filter;
 
+import com.jyong.springboot.Util.LogUtil;
+import com.jyong.springboot.Util.UserContextUtil;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,12 +30,15 @@ public class TraceFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        LogUtil.info(this.getClass(),"trace 链路追踪过滤器开始 ------");
         String traceId = UUID.randomUUID().toString().replace("-", "");
         MDC.put("traceId", traceId); // 生成或从请求头中提取traceId
         try {
+            UserContextUtil.setTraceId(traceId);
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove("traceId"); // 清理MDC
+            LogUtil.info(this.getClass(),"trace 链路追踪过滤器销毁 ------");
+            MDC.remove("traceId");
         }
     }
 }

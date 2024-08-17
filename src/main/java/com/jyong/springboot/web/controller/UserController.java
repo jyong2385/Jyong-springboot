@@ -1,13 +1,11 @@
 package com.jyong.springboot.web.controller;
 
-import com.jyong.springboot.web.Result;
 import com.jyong.springboot.dao.model.User;
+import com.jyong.springboot.entity.UserRequest;
 import com.jyong.springboot.service.UserService;
+import com.jyong.springboot.web.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,11 +23,32 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 用户注册接口
+     */
+    @PostMapping(value = "/register.json")
+    Result<Long> register(UserRequest user) {
+        Result<Long> result = new Result<>();
+        try {
+            result.setSuccess(true);
+            result.setData(userService.register(user));
+        }catch (Exception ex){
+            result.setSuccess(false);
+            result.setMessage(ex.getMessage());
+        }
+        return result;
+    }
+
     @GetMapping("/query.json")
     Result<List<User>> queryAllUser() {
         Result<List<User>> result = new Result<>();
-        result.setSuccess(true);
-        result.setData(userService.selectAll());
+        try {
+            result.setSuccess(true);
+            result.setData(userService.selectAll());
+        }catch (Exception ex){
+            result.setSuccess(false);
+            result.setMessage(ex.getMessage());
+        }
         return result;
     }
 

@@ -26,7 +26,7 @@ public class RedisController {
 
     @GetMapping("/getKey")
     @ResponseBody
-    public Result<String> getKey(@RequestParam String key){
+    public Result<String> getKey(@RequestParam String key) {
         Result<String> result = new Result<>();
         result.setData(redisClient.getKey(key));
         result.setSuccess(true);
@@ -35,12 +35,12 @@ public class RedisController {
 
     @GetMapping("/putData")
     @ResponseBody
-    public Result<String> getKey(@RequestParam String key, @RequestParam String data){
+    public Result<String> getKey(@RequestParam String key, @RequestParam String data) {
         Result<String> result = new Result<>();
         try {
-            result.setData(redisClient.putData(key,data));
+            result.setData(redisClient.putData(key, data, 60));
             result.setSuccess(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
         }

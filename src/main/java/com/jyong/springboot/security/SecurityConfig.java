@@ -1,6 +1,5 @@
 //package com.jyong.springboot.security;
 //
-//import com.jyong.springboot.config.JDBCConfig;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,8 +10,6 @@
 //
 //@EnableWebSecurity
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    private JDBCConfig jdbcConfig;
 //
 //    /**
 //     * 实例：
@@ -26,10 +23,7 @@
 //    protected void configure(HttpSecurity http) throws Exception {
 //        //配置规则
 //        http.authorizeRequests()
-//                .antMatchers("/").permitAll()   // "/"代表首页  permitAll()代表允许所有人访问
-//                .antMatchers("/level1").hasAnyRole("vip1")  //level1 下的功能页面 仅vip1可访问，下同
-//                .antMatchers("/level2").hasAnyRole("vip2")
-//                .antMatchers("/level3").hasAnyRole("vip3");
+//
 //
 //        http.formLogin();  //当用户没有权限时,跳回到首页
 //    }
