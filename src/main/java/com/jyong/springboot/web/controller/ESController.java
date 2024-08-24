@@ -37,12 +37,12 @@ public class ESController {
 
     @GetMapping("/matchQuery.json")
     @ResponseBody
-    public Result<List<Person>> matchQuery(@RequestParam(required = false) String[] names,@RequestParam(required = false) String name ,@RequestParam(required = false) Integer age) {
+    public Result<List<Person>> matchQuery(@RequestParam(required = false) String name ,@RequestParam(required = false) Integer age) {
         Result<List<Person>> result = new Result<>();
         Person person = new Person();
-        person.setName(name);
+//        person.setName(name);
         person.setAge(age);
-        person.setNames(Arrays.asList(names));
+        person.setNames(name);
         SearchSourceBuilder searchSourceBuilder = personSearchSourceBuilder(person, 0, 10);
         List<SearchHit> searchHits = eSearchService.search(index, searchSourceBuilder);
         List<Person> personList = new ArrayList<>();
@@ -130,7 +130,6 @@ public class ESController {
             searchSourceBuilder.from(page);
         }
 
-        System.out.println(searchSourceBuilder.toString());
         return searchSourceBuilder;
     }
 

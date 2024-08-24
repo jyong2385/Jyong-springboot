@@ -1,5 +1,6 @@
 package com.jyong.springboot.service.elasticsearch;
 
+import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -59,7 +60,7 @@ public class ESearchServiceImpl implements ESearchService {
 
     public List<SearchHit> search(String index, SearchSourceBuilder searchSourceBuilder) {
         try {
-            logger.info("search service ,,index=" + index + " ,dsl=" + searchSourceBuilder.toString());
+            logger.info("search service ,,index=" + index + " ,dsl=\n" + searchSourceBuilder.toString());
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.indices(index);
             searchRequest.source(searchSourceBuilder);
