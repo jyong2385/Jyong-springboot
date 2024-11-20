@@ -1,6 +1,7 @@
 package com.jyong.springboot.service.elasticsearch;
 
 import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
+import org.apache.commons.collections4.CollectionUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -16,15 +17,13 @@ import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.indices.PutIndexTemplateRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author jyong
@@ -72,6 +71,33 @@ public class ESearchServiceImpl implements ESearchService {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<SearchHit> search(String index, SearchSourceBuilder searchSourceBuilder, List<String> highlightFields, String preTag, String postTag) {
+        try {
+            logger.info("search service ,,index=" + index + " ,dsl=\n" + searchSourceBuilder.toString());
+
+            //设置高亮字段 高亮标签
+            if(CollectionUtils.isNotEmpty(highlightFields)){
+                HighlightBuilder highlightBuilder = new HighlightBuilder();
+                highlightFields.forEach(e->highlightBuilder.field(e).preTags(preTag).postTags(postTag));
+                searchSourceBuilder.highlighter(highlightBuilder);
+            }
+
+            SearchRequest searchRequest = new SearchRequest();
+            searchRequest.indices(index);
+            searchRequest.source(searchSourceBuilder);
+            SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            if (search != null && search.getHits() != null && search.getHits().getHits().length > 0) {
+                return Arrays.asList(search.getHits().getHits());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return Collections.emptyList();
     }
 
     public Boolean save(String index, Map<String, Object> source) {

@@ -37,6 +37,18 @@ public interface ESearchService {
      */
     List<SearchHit> search(String index, SearchSourceBuilder searchSourceBuilder);
 
+
+    /**
+     * 通用检索
+     * @param index
+     * @param searchSourceBuilder
+     * @param highlightFields
+     * @param preTag
+     * @param postTag
+     * @return
+     */
+    List<SearchHit> search(String index, SearchSourceBuilder searchSourceBuilder,List<String> highlightFields,String preTag,String postTag);
+
     Boolean createTemplate(String name, Map<String, Object> mapping);
 
 
